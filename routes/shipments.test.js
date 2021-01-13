@@ -1,19 +1,30 @@
 "use strict";
+const shipIt = require("../shipItApi.js");
+shipIt.shipProduct = jest.fn();
 
 const request = require("supertest");
 const app = require("../app");
-
+// const AxiosMockAdapter = require(
+//   "axios-mock-adapter");
+// const axios = require("axios");
+// const axiosMock = new AxiosMockAdapter(axios);
 
 describe("POST /", function () {
   test("valid", async function () {
+    shipIt.shipProduct
+      .mockReturnValue(10274);
+    // axiosMock.onPost("http://localhost:3001/ship")
+    //   .reply(200, {
+    //     "shipped": 10274
+    //   });
     const resp = await request(app).post("/shipments").send({
       productId: 1000,
       name: "Test Tester",
       addr: "100 Test St",
       zip: "12345-6789",
     });
-
-    expect(resp.body).toEqual({ shipped: expect.any(Number) });
+    console.log(resp.body, "response");
+    expect(resp.body).toEqual({ shipped: 10274 });
   });
 
   test("invalid product id", async function () {

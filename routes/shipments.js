@@ -30,6 +30,7 @@ router.post("/", async function (req, res, next) {
     
     const { productId, name, addr, zip } = req.body;
     const shipId = await shipProduct({ productId, name, addr, zip });
+    console.log("shipId:", shipId);
     return res.json({ shipped: shipId });
 
   } catch (err) {
